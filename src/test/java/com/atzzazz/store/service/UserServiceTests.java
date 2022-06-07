@@ -22,4 +22,11 @@ public class UserServiceTests {
 
         userService.register(user);
     }
+
+    @Test
+    public void login(){
+        User user
+                = userService.login("gsdfgsd", "123");
+        System.out.println(user);
+    }
 }

@@ -4,6 +4,8 @@ import com.atzzazz.store.mapper.UserMapper;
 import com.atzzazz.store.pojo.User;
 import com.atzzazz.store.service.IUserService;
 import com.atzzazz.store.service.ex.InsertException;
+import com.atzzazz.store.service.ex.PasswordNotMatchException;
+import com.atzzazz.store.service.ex.UserNotFoundException;
 import com.atzzazz.store.service.ex.UsernameDuplicateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +63,38 @@ public class UserServiceImpl implements IUserService {
             throw new InsertException("サーバー未知のエラーが発生しています。もう一度お試しください");
         }
 
+    }
+
+    @Override
+    public User login(String userName, String password) {
+
+        User result = userMapper.findByUserName(userName);
+
+        //Userが存在するかを判断する。nullの場合、ユーザーが存在しない
+        if (result == null){
+            throw new UserNotFoundException("ユーザーデータが存在しません");
+        }
+
+        //userが削除されているかを判断する
+        if (result.getIsDelete() == 1){
+            throw new UserNotFoundException("ユーザーデータが存在しません");
+        }
+
+        //passwordが一致するかを判断する
+        String salt = result.getSalt();
+        String newMd5Password = getMd5Password(password, salt);
+        String oldPassword = result.getPassword();
+        if(!newMd5Password.equals(oldPassword)){
+            throw new PasswordNotMatchException("passwordが間違っています");
+        }
+
+        //必要なデータだけ収納するようにする
+        User user = new User();
+        user.setUserName(result.getUserName());
+        user.setUserId(result.getUserId());
+        user.setAvatar(result.getAvatar());
+
+        return user;
     }
 
     /**

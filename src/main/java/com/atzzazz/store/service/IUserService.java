@@ -8,4 +8,6 @@ import com.atzzazz.store.pojo.User;
 public interface IUserService {
 
     public void register(User user);
+
+    User login(String userName,String password);
 }
