@@ -38,7 +38,7 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label">名字：</label>
 						<div class="col-md-8">
-							<input name="username" type="text" class="form-control" placeholder="请输入用户名">
+							<input name="userName" type="text" class="form-control" placeholder="请输入用户名">
 						</div>
 					</div>
 					<!--密码-->
@@ -138,6 +138,28 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+		<script type="text/javascript">
+			$('#btn-reg').click(function () {
+				$.ajax({
+					url:"/users/register",
+					type:"POST",
+					data:$("#form-reg").serialize(),
+					dataType:"JSON",
+					success:function (json) {
+						console.log(json)
+						if (json.code == 200){
+							alert(json.message)
+						}else {
+							alert(json.message)
+						}
+					},
+					error:function (xhr) {
+						alert("サーバー側にエラーが発生しています！"+xhr.status)
+					}
+				});
+			});
+
+		</script>
 	</body>
 
 </html>
