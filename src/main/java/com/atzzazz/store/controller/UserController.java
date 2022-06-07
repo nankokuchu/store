@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 
 @RestController
 @RequestMapping("users")
@@ -28,12 +30,16 @@ public class UserController extends BaseController {
 
     @RequestMapping("login")
     public JsonResult<User> login(@RequestParam("username") String username,
-                                  @RequestParam("password") String password){
+                                  @RequestParam("password") String password,
+                                  HttpSession session){
         User user = userService.login(username, password);
         JsonResult<User> userJsonResult = new JsonResult<>();
         userJsonResult.setCode(OK);
         userJsonResult.setData(user);
         userJsonResult.setMessage("ログインできました");
+
+        session.setAttribute("user",user);
+
         return userJsonResult;
     }
 }
