@@ -10,4 +10,9 @@ public interface IUserService {
     public void register(User user);
 
     User login(String userName,String password);
+
+    void changePassword(Integer userId,
+                        String userName,
+                        String oldPassword,
+                        String newPassword);
 }

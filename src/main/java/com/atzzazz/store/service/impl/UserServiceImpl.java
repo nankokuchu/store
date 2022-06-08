@@ -3,10 +3,7 @@ package com.atzzazz.store.service.impl;
 import com.atzzazz.store.mapper.UserMapper;
 import com.atzzazz.store.pojo.User;
 import com.atzzazz.store.service.IUserService;
-import com.atzzazz.store.service.ex.InsertException;
-import com.atzzazz.store.service.ex.PasswordNotMatchException;
-import com.atzzazz.store.service.ex.UserNotFoundException;
-import com.atzzazz.store.service.ex.UsernameDuplicateException;
+import com.atzzazz.store.service.ex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -71,12 +68,12 @@ public class UserServiceImpl implements IUserService {
         User result = userMapper.findByUserName(userName);
 
         //Userが存在するかを判断する。nullの場合、ユーザーが存在しない
-        if (result == null){
+        if (result == null) {
             throw new UserNotFoundException("ユーザーデータが存在しません");
         }
 
         //userが削除されているかを判断する
-        if (result.getIsDelete() == 1){
+        if (result.getIsDelete() == 1) {
             throw new UserNotFoundException("ユーザーデータが存在しません");
         }
 
@@ -84,7 +81,7 @@ public class UserServiceImpl implements IUserService {
         String salt = result.getSalt();
         String newMd5Password = getMd5Password(password, salt);
         String oldPassword = result.getPassword();
-        if(!newMd5Password.equals(oldPassword)){
+        if (!newMd5Password.equals(oldPassword)) {
             throw new PasswordNotMatchException("passwordが間違っています");
         }
 
@@ -97,8 +94,32 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
+    @Override
+    public void changePassword(Integer userId, String userName, String oldPassword, String newPassword) {
+        User result = userMapper.findByUserId(userId);
+
+        if (result == null || result.getIsDelete() == 1) {
+            throw new UserNotFoundException("ユーザーが存在しません");
+        }
+
+        String oldMd5Password = getMd5Password(oldPassword, result.getSalt());
+
+        if (!result.getPassword().equals(oldMd5Password)) {
+            throw new PasswordNotMatchException("パースワードが一致しません");
+        }
+
+        String newMd5Password = getMd5Password(newPassword, result.getSalt());
+
+        Integer rows = userMapper.updateUserPassword(userId, newMd5Password, userName, new Date());
+
+        if (rows != 1) {
+            throw new UpdateException("データを更新する際に未知のエラーが発生しています");
+        }
+    }
+
     /**
      * MD5
+     *
      * @param password
      * @param salt
      * @return 暗号化した password

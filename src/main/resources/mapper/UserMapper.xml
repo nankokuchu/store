@@ -28,4 +28,23 @@
         FROM t_user
         WHERE username = #{username}
     </select>
+
+    <!--Integer updateUserPassword(Integer userId,
+                               String newUserPassword,
+                               String modifiedUser,
+                               Date modifiedTime);-->
+    <update id="updateUserPassword">
+        UPDATE t_user
+        SET password=#{newUserPassword},
+            modified_user=#{modifiedUser},
+            modified_time=#{modifiedTime}
+        WHERE uid = #{userId}
+    </update>
+
+    <!--User findByUserId(Integer userId)-->
+    <select id="findByUserId" resultMap="UserPojoMap">
+        SELECT *
+        FROM t_user
+        WHERE uid = #{userId}
+    </select>
 </mapper>

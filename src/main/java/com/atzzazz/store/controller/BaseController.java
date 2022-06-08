@@ -30,6 +30,9 @@ public class BaseController {
         }else if (e instanceof InsertException){
             result.setCode(5000);
             result.setMessage("サーバー側に未知のエラーが発生しています");
+        }else if (e instanceof UpdateException){
+            result.setCode(5000);
+            result.setMessage("サーバー側に未知のエラーが発生しています");
         }
         return result;
     }
