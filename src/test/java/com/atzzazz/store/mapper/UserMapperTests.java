@@ -44,4 +44,17 @@ public class UserMapperTests {
         User user = userMapper.findByUserId(6);
         System.out.println(user);
     }
+
+    @Test
+    public void updateInfoByUserID(){
+        User user = userMapper.findByUserId(14);
+        user.setPhone(null);
+        user.setEmail(null);
+        user.setGender(null);
+        user.setModifiedUser(user.getUserName());
+        user.setModifiedTime(new Date());
+
+        Integer rows = userMapper.updateInfoByUserID(user);
+        System.out.println(rows);
+    }
 }

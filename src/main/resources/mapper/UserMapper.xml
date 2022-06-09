@@ -47,4 +47,16 @@
         FROM t_user
         WHERE uid = #{userId}
     </select>
+
+    <!--Integer updateInfoByUserID(User user);-->
+    <update id="updateInfoByUserID">
+        UPDATE t_user
+        SET
+            <if test="phone!=null">phone=#{phone},</if>
+            <if test="email!=null">email=#{email},</if>
+            <if test="gender!=null">gender=#{gender},</if>
+            modified_user=#{modifiedUser},
+            modified_time=#{modifiedTime}
+        WHERE uid = #{userId}
+    </update>
 </mapper>

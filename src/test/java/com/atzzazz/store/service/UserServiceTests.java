@@ -1,6 +1,7 @@
 package com.atzzazz.store.service;
 
 import com.atzzazz.store.pojo.User;
+import com.atzzazz.store.service.ex.ServiceException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,15 @@ public class UserServiceTests {
     }
 
 
+    @Test
+    public void getUserByUserId(){
+        try {
+            User user = userService.getUserByUserId(14);
+            System.out.println(user);
+        } catch (ServiceException e) {
+            System.out.println(e.getClass().getSimpleName());
+            System.out.println(e.getMessage());
+        }
+    }
 
 }

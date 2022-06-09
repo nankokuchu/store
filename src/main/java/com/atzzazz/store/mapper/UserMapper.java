@@ -46,4 +46,11 @@ public interface UserMapper {
      */
     User findByUserId(Integer userId);
 
+    /**
+     * ユーザーのデータを更新する
+     * @param user
+     * @return
+     */
+    Integer updateInfoByUserID(User user);
+
 }

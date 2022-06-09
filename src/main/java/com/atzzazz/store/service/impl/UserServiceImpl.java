@@ -4,10 +4,13 @@ import com.atzzazz.store.mapper.UserMapper;
 import com.atzzazz.store.pojo.User;
 import com.atzzazz.store.service.IUserService;
 import com.atzzazz.store.service.ex.*;
+import com.atzzazz.store.util.JsonResult;
+import com.atzzazz.store.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import javax.sql.rowset.serial.SerialException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -112,9 +115,36 @@ public class UserServiceImpl implements IUserService {
 
         Integer rows = userMapper.updateUserPassword(userId, newMd5Password, userName, new Date());
 
-        if (rows != 1) {
-            throw new UpdateException("データを更新する際に未知のエラーが発生しています");
-        }
+        Util.checkoutRows(rows);
+    }
+
+    @Override
+    public User getUserByUserId(Integer userId) {
+        User result = userMapper.findByUserId(userId);
+        Util.userIsFound(result, result.getIsDelete());
+
+        User user = new User();
+        user.setUserName(result.getUserName());
+        user.setEmail(result.getEmail());
+        user.setPhone(result.getPhone());
+        user.setGender(result.getGender());
+
+        return user;
+    }
+
+    @Override
+    public void changeUserInfo(Integer userId, User user) {
+        User result = userMapper.findByUserId(userId);
+        Util.userIsFound(result,result.getIsDelete());
+
+        user.setUserId(userId);
+        user.setModifiedUser(result.getUserName());
+        user.setModifiedTime(new Date());
+
+        Integer rows = userMapper.updateInfoByUserID(user);
+
+        Util.checkoutRows(rows);
+
     }
 
     /**

@@ -3,6 +3,7 @@ package com.atzzazz.store.controller;
 import com.atzzazz.store.pojo.User;
 import com.atzzazz.store.service.IUserService;
 import com.atzzazz.store.util.JsonResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,5 +58,25 @@ public class UserController extends BaseController {
         userService.changePassword(userId,userName,oldPassword,newPassword);
 
         return new JsonResult<>(OK);
+    }
+
+    @GetMapping("get_by_uid")
+    public JsonResult<User> getByUserId(HttpSession session){
+        User sessionUser = (User) session.getAttribute("user");
+        Integer userId = sessionUser.getUserId();
+        User data = userService.getUserByUserId(userId);
+
+        return new JsonResult<>(OK,data);
+    }
+
+    @RequestMapping("change_info")
+    public JsonResult<Void> changeInfo(User user, HttpSession session) {
+        // 从HttpSession对象中获取uid和username
+        User sessionUser = (User) session.getAttribute("user");
+        Integer userId = sessionUser.getUserId();
+        // 调用业务对象执行修改用户资料
+        userService.changeUserInfo(userId,user);
+        // 响应成功
+        return new JsonResult<Void>(OK);
     }
 }
