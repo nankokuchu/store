@@ -155,7 +155,9 @@
                 console.log(json)
                 if (json.code == 200) {
                     alert(json.message)
-					location.href = "index.html"
+                    $.cookie("avatar", json.data.avatar, {expires: 7});
+                    console.log("cookie中的avatar=" + $.cookie("avatar"));
+                    location.href = "index.html"
                 } else {
                     alert(json.message)
                 }

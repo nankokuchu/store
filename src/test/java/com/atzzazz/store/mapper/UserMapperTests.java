@@ -18,7 +18,7 @@ public class UserMapperTests {
     private UserMapper userMapper;
 
     @Test
-    public void insertUser(){
+    public void insertUser() {
         User user = new User();
         user.setUserName("tom");
         user.setPassword("123456");
@@ -27,26 +27,26 @@ public class UserMapperTests {
     }
 
     @Test
-    public void findByUserName(){
+    public void findByUserName() {
         User user = userMapper.findByUserName("tom");
         System.out.println(user);
     }
 
     @Test
-    public void updateUserPassword(){
+    public void updateUserPassword() {
         Date date = new Date();
         Integer rows = userMapper.updateUserPassword(3, "123", "tom", date);
         System.out.println(rows);
     }
 
     @Test
-    public void findByUserId(){
+    public void findByUserId() {
         User user = userMapper.findByUserId(6);
         System.out.println(user);
     }
 
     @Test
-    public void updateInfoByUserID(){
+    public void updateInfoByUserID() {
         User user = userMapper.findByUserId(14);
         user.setPhone(null);
         user.setEmail(null);
@@ -56,5 +56,14 @@ public class UserMapperTests {
 
         Integer rows = userMapper.updateInfoByUserID(user);
         System.out.println(rows);
+    }
+
+    @Test
+    public void updateAvatarByUserId() {
+        User user = userMapper.findByUserId(14);
+        System.out.println(user);
+        Integer rows = userMapper.updateAvatarByUserId(14, "/upload/123.jpg", "管理人", new Date());
+        System.out.println(rows);
+
     }
 }

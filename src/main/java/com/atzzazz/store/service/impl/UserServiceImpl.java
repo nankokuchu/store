@@ -147,6 +147,18 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    @Override
+    public void changeAvatar(Integer userId, String username, String avatar) {
+        User result = userMapper.findByUserId(userId);
+
+        Util.userIsFound(result,result.getIsDelete());
+
+        Integer rows = userMapper.updateAvatarByUserId(userId, avatar, username, new Date());
+
+        Util.checkoutRows(rows);
+
+    }
+
     /**
      * MD5
      *

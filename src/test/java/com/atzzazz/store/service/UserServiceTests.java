@@ -50,4 +50,13 @@ public class UserServiceTests {
         }
     }
 
+
+    @Test
+    public void changeAvatar(){
+        Integer userId = 14;
+        String userName = "root";
+        String avatar = "/upload/asdf.jpg";
+        userService.changeAvatar(userId,userName,avatar);
+    }
+
 }

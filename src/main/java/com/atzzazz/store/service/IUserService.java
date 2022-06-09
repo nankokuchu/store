@@ -20,4 +20,6 @@ public interface IUserService {
     User getUserByUserId(Integer userId);
 
     void changeUserInfo(Integer userId, User user);
+
+    void changeAvatar(Integer userId, String username, String avatar);
 }

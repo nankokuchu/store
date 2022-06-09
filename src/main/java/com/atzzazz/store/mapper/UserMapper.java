@@ -1,6 +1,7 @@
 package com.atzzazz.store.mapper;
 
 import com.atzzazz.store.pojo.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 
@@ -53,4 +54,9 @@ public interface UserMapper {
      */
     Integer updateInfoByUserID(User user);
 
+
+    Integer updateAvatarByUserId(@Param("userId") Integer userId,
+                                 @Param("avatar") String avatar,
+                                 @Param("modifiedUser")String modifiedUser,
+                                 @Param("modifiedTime")Date modifiedTime);
 }
