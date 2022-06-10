@@ -27,6 +27,9 @@ public class BaseController {
         } else if (e instanceof UserNotFoundException) {
             result.setCode(4002);
             result.setMessage("ユーザーのデータが存在しません");
+        } else if (e instanceof AddressCountLimitException) {
+            result.setCode(4003);
+            result.setMessage("登録できる住所の個数を超えています");
         } else if (e instanceof InsertException) {
             result.setCode(5000);
             result.setMessage("サーバー側に未知のエラーが発生しています");

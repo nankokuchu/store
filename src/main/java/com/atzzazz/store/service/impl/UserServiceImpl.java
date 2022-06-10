@@ -4,13 +4,10 @@ import com.atzzazz.store.mapper.UserMapper;
 import com.atzzazz.store.pojo.User;
 import com.atzzazz.store.service.IUserService;
 import com.atzzazz.store.service.ex.*;
-import com.atzzazz.store.util.JsonResult;
 import com.atzzazz.store.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-
-import javax.sql.rowset.serial.SerialException;
 import java.util.Date;
 import java.util.UUID;
 

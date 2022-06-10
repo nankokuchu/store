@@ -147,8 +147,10 @@
 					dataType:"JSON",
 					success:function (json) {
 						console.log(json)
-						if (json.code == 200){
+						if (json.code === 200){
 							alert(json.message)
+							console.log(json.data)
+							// $.cookie("avatar",json.data)
 							location.href = "index.html"
 						}else {
 							alert(json.message)

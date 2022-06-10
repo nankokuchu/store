@@ -41,10 +41,13 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping("register")
-    public JsonResult<Void> register(User user) {
+    public JsonResult<String> register(User user, HttpSession session) {
         userService.register(user);
-        JsonResult<Void> result = new JsonResult<>(OK);
+        session.setAttribute("user", user);
+        JsonResult<String> result = new JsonResult<>(OK);
         result.setMessage("ユーザー登録成功しました");
+        result.setData(user.getAvatar());
+        System.out.println(user.getAvatar());
         return result;
     }
 
@@ -148,7 +151,7 @@ public class UserController extends BaseController {
             file.transferTo(dest);
         } catch (IllegalStateException e) {
             throw new FileStateException("文件状态异常，可能文件已被移动或删除");
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new FileUploadIOException("上传文件时读写错误，请稍后重尝试");
         }
 
@@ -160,9 +163,9 @@ public class UserController extends BaseController {
         String userName = userFromSession.getUserName();
 
         // 将头像写入到数据库中
-        userService.changeAvatar(userId,userName,avatar);
+        userService.changeAvatar(userId, userName, avatar);
 
         // 返回成功和头像路径
-        return new JsonResult<>(OK,avatar);
+        return new JsonResult<>(OK, avatar);
     }
 }

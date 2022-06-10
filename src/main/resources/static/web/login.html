@@ -153,7 +153,7 @@
             dataType: "JSON",
             success: function (json) {
                 console.log(json)
-                if (json.code == 200) {
+                if (json.code === 200) {
                     alert(json.message)
                     $.cookie("avatar", json.data.avatar, {expires: 7});
                     console.log("cookie中的avatar=" + $.cookie("avatar"));

@@ -260,7 +260,7 @@
             processData: false, // processData处理数据
             contentType: false, // contentType发送数据的格式
             success: function(json) {
-                if (json.state == 200) {
+                if (json.state === 200) {
                     $("#img-avatar").attr("src", json.data);
                     $.cookie("avatar", json.data, {expires: 7});
                 } else {
