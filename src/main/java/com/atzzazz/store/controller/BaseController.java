@@ -30,6 +30,12 @@ public class BaseController {
         } else if (e instanceof AddressCountLimitException) {
             result.setCode(4003);
             result.setMessage("登録できる住所の個数を超えています");
+        } else if (e instanceof AddressNotFoundException) {
+            result.setCode(4004);
+            result.setMessage("ユーザー重症が存在しない");
+        } else if (e instanceof AccessDeniedException) {
+            result.setCode(4005);
+            result.setMessage("アクセスできないデータです");
         } else if (e instanceof InsertException) {
             result.setCode(5000);
             result.setMessage("サーバー側に未知のエラーが発生しています");

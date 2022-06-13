@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -38,6 +39,15 @@ public class AddressServiceTests {
         for (Address address : list) {
             System.err.println(address);
         }
+    }
+
+    @Test
+    public void setDefault(){
+        String userName = "雄霸";
+        Integer AddressId =23;
+        Integer userId= 15;
+        addressService.setDefault(AddressId,userId,userName);
+
     }
 
 }

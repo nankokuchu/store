@@ -1,12 +1,14 @@
 package com.atzzazz.store.mapper;
 
 import com.atzzazz.store.pojo.Address;
+import org.apache.ibatis.annotations.Param;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -25,8 +27,8 @@ public class AddressMapperTests {
 
         Integer rows = 0;
         for (int i = 0; i < 15; i++) {
-             rows = addressMapper.insertAddress(address);
-             rows++;
+            rows = addressMapper.insertAddress(address);
+            rows++;
         }
 
         System.out.println(rows);
@@ -41,9 +43,34 @@ public class AddressMapperTests {
     }
 
     @Test
-    public void selectAddressByUserId(){
+    public void selectAddressByUserId() {
         List<Address> list = addressMapper.selectAddressByUserId(15);
         list.forEach(System.err::println);
     }
+
+
+    @Test
+    public void findByAddressId() {
+        Address byAddressId = addressMapper.findByAddressId(24);
+        System.err.println(byAddressId);
+    }
+
+    ;
+
+    @Test
+    public void updateNonDefault() {
+        Integer rows = addressMapper.updateNonDefault(15);
+        System.err.println(rows);
+    }
+
+    ;
+
+    @Test
+    public void updateDefaultByAddressId() {
+        Integer rows = addressMapper.updateDefaultByAddressId(25, "admin", new Date());
+        System.out.println(rows);
+    }
+
+    ;
 
 }

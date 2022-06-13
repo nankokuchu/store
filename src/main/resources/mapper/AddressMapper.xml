@@ -45,4 +45,30 @@
     </select>
 
 
+    <!--Address findByAddressId(@Param("addressId") Integer addressId);-->
+    <select id="findByAddressId" resultMap="addressPojoMapper">
+        SELECT *
+        FROM t_address
+        WHERE aid = #{addressId}
+    </select>
+
+    <!--Integer updateNonDefault(@Param("userId") Integer userId);-->
+    <update id="updateNonDefault">
+        UPDATE t_address
+        SET is_default=0
+        WHERE uid = #{userId}
+    </update>
+
+    <!--Integer updateDefaultByAddressId(@Param("AddressId") Integer addressId,-->
+    <!--@Param("modifiedUser") String modifiedUser,-->
+    <!--@Param("modifiedTime") String modifiedTime);-->
+    <update id="updateDefaultByAddressId">
+        UPDATE t_address
+        SET is_default=1,
+            modified_user=#{modifiedUser},
+            modified_time=#{modifiedTime}
+        WHERE aid = #{AddressId}
+    </update>
+
+
 </mapper>

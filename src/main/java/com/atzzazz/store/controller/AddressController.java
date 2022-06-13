@@ -6,6 +6,7 @@ import com.atzzazz.store.service.IAddressService;
 import com.atzzazz.store.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,12 +30,23 @@ public class AddressController extends BaseController {
         return new JsonResult<>(OK);
     }
 
-    @GetMapping({"/",""})
-    public JsonResult<List<Address>> getAddressByUserId(HttpSession session){
+    @GetMapping({"/", ""})
+    public JsonResult<List<Address>> getAddressByUserId(HttpSession session) {
         User result = getUserFromSession(session);
         Integer userId = result.getUserId();
         List<Address> data = addressService.getAddressByUserId(userId);
         return new JsonResult<>(OK, data);
+    }
 
+    @RequestMapping("{aid}/set_default")
+    public JsonResult<Void> setDefault(@PathVariable("aid") Integer addressId,
+                                       HttpSession session) {
+        User user = getUserFromSession(session);
+        Integer userId = user.getUserId();
+        String userName = user.getUserName();
+
+        addressService.setDefault(addressId, userId, userName);
+
+        return new JsonResult<>(OK);
     }
 }
